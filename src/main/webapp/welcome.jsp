@@ -1,8 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="javax.inject.Inject" %>
+<%@ page import="org.picketlink.Identity" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-    if(true){
+@Inject
+private Identity identity;
+
+if(!identity.isLoggedIn()){
+	String index = request.getContextPath() + "/";
+    response.sendRedirect(index);
+}
+else{
 %>
 
 <!DOCTYPE html>
@@ -50,7 +59,7 @@
       <span class="icon-bar"></span>
     </button>
     <a href="/" class="navbar-brand">
-      <img class="navbar-brand-icon" src="<%= request.getContextPath() %>/dist/img/logo-alt.svg" alt=""/><img class="navbar-brand-name" src="<%= request.getContextPath() %>/dist/img/brand-alt.svg" alt="PatternFly Enterprise Application" />
+      <h1><strong>Openshift-javaee-dev</strong></h1>
     </a>
   </div>
   <nav class="collapse navbar-collapse">

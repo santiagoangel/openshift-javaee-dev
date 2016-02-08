@@ -31,25 +31,5 @@
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
-	<!-- Redirect any ViewExpiredException to /index.htm -->
-	<error-page>
-		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
-		<location>/index.htm</location>
-	</error-page>
-	<error-page>
-		<exception-type>org.picketlink.idm.IdentityManagementException</exception-type>
-		<location>/forbidden.html</location>
-	</error-page>
-	
-	<error-page>
-		<exception-type>org.apache.deltaspike.security.api.authorization.AccessDeniedException</exception-type>
-		<location>/denied.html</location>
-	</error-page>
-	
-	<!-- Redirect any 500 Error Code to /error.html -->
-	<error-page>
-		<error-code>500</error-code>
-		<location>/error.html</location>
-	</error-page>
 
 </web-app>

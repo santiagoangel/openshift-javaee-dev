@@ -49,8 +49,11 @@
             <h1><strong>Openshift-javaee-dev</strong></h1>
           </div><!--/#brand-->
         </div><!--/.col-*-->
+        
+        <h:messages globalOnly="true" styleClass="danger" id="controller-login-msg"/>
         <div class="col-sm-7 col-md-6 col-lg-5 login">
-          <form class="form-horizontal" role="form">
+          <h:form id="loginForm" rendered="#{not identity.loggedIn}"
+                    class="form-horizontal">
             <div class="form-group">
               <label for="inputUsername" class="col-sm-2 col-md-2 control-label">Username</label>
               <div class="col-sm-10 col-md-10">
@@ -69,10 +72,11 @@
                 
               </div>
               <div class="col-xs-4 col-sm-4 col-md-4 submit">
-                <button type="submit" class="btn btn-primary btn-lg" tabindex="4">Log In</button>
+                <h:commandButton id="login" value="Login"
+                                         action="#{controller.login}" styleClass="btn btn-primary btn-lg"/>
               </div>
             </div>
-          </form>
+          </h:form>
         </div><!--/.col-*-->
         <div class="col-sm-5 col-md-6 col-lg-7 details">
           <p><strong>Welcome to Openshift-javaee-dev!</strong><br />
@@ -80,5 +84,6 @@
         </div><!--/.col-*-->
       </div><!--/.row-->
     </div><!--/.container-->
+    <f:event type="preRenderView" listener="#{controller.checkAlreadyLoggedin}"/>
   </body>
 </html>
