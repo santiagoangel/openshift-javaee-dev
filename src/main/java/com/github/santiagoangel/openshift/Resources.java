@@ -38,13 +38,6 @@ public class Resources {
         return FacesContext.getCurrentInstance();
     }
     
-    @Produces
-	IdentityConfiguration produceIdentityManagementConfiguration() {
-		IdentityConfigurationBuilder builder = new IdentityConfigurationBuilder();
-
-		builder.named("default").stores().jpa().supportAllFeatures();
-
-		return builder.build();
-	}
+    
 
 }

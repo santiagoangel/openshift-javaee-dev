@@ -4,14 +4,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-@Inject
-private Identity identity;
-
-if(!identity.isLoggedIn()){
-	String index = request.getContextPath() + "/";
-    response.sendRedirect(index);
-}
-else{
+	if (request.getUserPrincipal() == null) {
+		String index = request.getContextPath() + "/";
+		response.sendRedirect(index);
+	} 
+	
+	else {
 %>
 
 <!DOCTYPE html>

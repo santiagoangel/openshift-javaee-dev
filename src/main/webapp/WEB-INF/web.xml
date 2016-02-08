@@ -30,6 +30,11 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/index.htm</location>
+	</error-page>
 
 
 </web-app>

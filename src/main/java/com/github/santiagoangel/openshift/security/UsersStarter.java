@@ -7,31 +7,18 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.picketlink.event.SecurityConfigurationEvent;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.PartitionManager;
 import org.picketlink.idm.RelationshipManager;
-import org.picketlink.idm.config.IdentityConfiguration;
-import org.picketlink.idm.config.IdentityConfigurationBuilder;
 import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.basic.Role;
 import org.picketlink.idm.model.basic.User;
 
-
 @Singleton
 @Startup
-public class Start {
-	
-	
-	public void onInit(@Observes SecurityConfigurationEvent event) {
-		event.getBuilder().http().allPaths();
-	}
-
-	
+public class UsersStarter {
 
 	@Inject
 	private Logger logger;
@@ -39,14 +26,12 @@ public class Start {
 	@Inject
 	private PartitionManager partitionManager;
 
-	
-
 	@PostConstruct
-	public void start() {
-		
-		try{
-		provisionUsers();
-		}catch(Exception e){
+	public void create() {
+
+		try {
+			provisionUsers();
+		} catch (Exception e) {
 			logger.info("PROVISION NOT EXECUTED. MAYBE USERS ALREADY EXIST OR IO ERROR.");
 		}
 
@@ -81,7 +66,6 @@ public class Start {
 		// Create application role "ROLE_ADMIN"
 		Role ROLE_ADMIN = new Role("ROLE_ADMIN");
 		identityManager.add(ROLE_ADMIN);
-
 
 		RelationshipManager relationshipManager = this.partitionManager.createRelationshipManager();
 
