@@ -39,6 +39,9 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify 
             tested stacks. -->
         <version.jboss.bom.eap>6.4.0.GA</version.jboss.bom.eap>
+        
+        <!-- PicketLink dependency versions -->
+		<version.picketlink.javaee.bom>2.7.1.Final</version.picketlink.javaee.bom>
 
         <!-- other plugin versions -->
         <version.surefire.plugin>2.10</version.surefire.plugin>
@@ -74,6 +77,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Dependency Management for PicketLink and Apache Deltaspike. -->
+			<dependency>
+				<groupId>org.picketlink</groupId>
+				<artifactId>picketlink-javaee-6.0</artifactId>
+				<version>${version.picketlink.javaee.bom}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -105,6 +116,24 @@
             <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>2.3.10.Final-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>2.3.10.Final-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included in 
             JBoss EAP 6 -->
@@ -116,11 +145,24 @@
 
         <!-- Import the EJB API, we use provided scope as the API is included in 
             JBoss EAP 6 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
+       <dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.transaction</groupId>
+			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
+			<version>1.0.1.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.1.4.GA</version>
+		</dependency>
 
         <!-- JSR-303 (Bean Validation) Implementation -->
         <!-- Provides portable constraints such as @Email -->
@@ -140,10 +182,37 @@
         <!-- Import the JSF API, we use provided scope as the API is included in 
             JBoss EAP 6 -->
         <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
+			<groupId>org.jboss.spec.javax.faces</groupId>
+			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.servlet</groupId>
+			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+        
+        <!-- PicketLink Uber Dependency. It provides all PicketLink dependencies 
+			from a single JAR. You still can define each module separately, if you want 
+			to. -->
+		<dependency>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-idm-simple-schema</artifactId>
+			<scope>compile</scope>
+		</dependency>
 
         <!-- Now we declare any tools needed -->
 

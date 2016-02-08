@@ -2,10 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-    if (request.getUserPrincipal() == null) {
-        String index = request.getContextPath() + "/";
-        //response.sendRedirect(index);
-    } else {
+    if(true){
 %>
 
 <!DOCTYPE html>
