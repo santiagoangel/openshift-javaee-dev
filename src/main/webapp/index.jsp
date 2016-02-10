@@ -2,17 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
-	if (request.getUserPrincipal() != null) {
-		String welcome = request.getContextPath() + "/welcome.html";
-		response.sendRedirect(welcome);
-	} 
-	
-	else {
+    if (request.getUserPrincipal() != null) {
+        String index = request.getContextPath() + "/welcome.html";
+        response.sendRedirect(index);
+    } else {
 %>
+
 <!DOCTYPE html>
-<!--[if IE 9]><html lang="en-us" class="ie9 login-pf"><![endif]-->
+<!--[if IE 9]><html class="ie9 login-pf"><![endif]-->
 <!--[if gt IE 9]><!-->
-<html lang="en-us" class="login-pf">
+<html class="login-pf">
 <!--<![endif]-->
   <head>
     <title>Login - Openshift-javaee-dev</title>

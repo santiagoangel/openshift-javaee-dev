@@ -54,9 +54,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <h1><a href="/" class="navbar-brand">
-      <strong>Openshift-javaee-dev</strong>
-    </a></h1>
+    <a href="/" class="navbar-brand"><strong>Openshift-javaee-dev</strong></a>
   </div>
   <nav class="collapse navbar-collapse">
     <ul class="nav navbar-nav">

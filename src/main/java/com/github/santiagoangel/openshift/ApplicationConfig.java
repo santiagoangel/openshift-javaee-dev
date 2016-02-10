@@ -6,8 +6,6 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.picketlink.config.http.annotations.Logout;
-
 import com.github.santiagoangel.openshift.security.authc.LoginService;
 import com.github.santiagoangel.openshift.security.authc.LogoutService;
 
