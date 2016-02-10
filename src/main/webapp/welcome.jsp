@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="javax.inject.Inject" %>
-<%@ page import="org.picketlink.Identity" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%
@@ -56,9 +54,9 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a href="/" class="navbar-brand">
-      <h1><strong>Openshift-javaee-dev</strong></h1>
-    </a>
+    <h1><a href="/" class="navbar-brand">
+      <strong>Openshift-javaee-dev</strong>
+    </a></h1>
   </div>
   <nav class="collapse navbar-collapse">
     <ul class="nav navbar-nav">

@@ -1,15 +1,18 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+	if (request.getUserPrincipal() != null) {
+		String welcome = request.getContextPath() + "/welcome.html";
+		response.sendRedirect(welcome);
+	} 
+	
+	else {
+%>
 <!DOCTYPE html>
-<!--[if IE 9]><html lang="en-us" class="ie9 login-pf" 
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"><![endif]-->
+<!--[if IE 9]><html lang="en-us" class="ie9 login-pf"><![endif]-->
 <!--[if gt IE 9]><!-->
-<html lang="en-us" class="login-pf" 
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html lang="en-us" class="login-pf">
 <!--<![endif]-->
   <head>
     <title>Login - Openshift-javaee-dev</title>
@@ -36,6 +39,7 @@
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="dist/js/patternfly.min.js"></script>
+    <script src="dist/js/sec.js"></script>
   </head>
 
   <body>
@@ -50,20 +54,20 @@
           </div><!--/#brand-->
         </div><!--/.col-*-->
         
-        <h:messages globalOnly="true" styleClass="danger" id="controller-login-msg"/>
+        <p id="message" style="color:red"></p>
         <div class="col-sm-7 col-md-6 col-lg-5 login">
-          <h:form id="loginForm" rendered="#{not identity.loggedIn}"
-                    class="form-horizontal">
+          <form id="usernamePasswordForm" onsubmit="return false;" class="form-horizontal">
             <div class="form-group">
               <label for="inputUsername" class="col-sm-2 col-md-2 control-label">Username</label>
               <div class="col-sm-10 col-md-10">
-                <input type="text" class="form-control" id="inputUsername" placeholder="" tabindex="1" />
+                <input class="form-control" id="userName" type="text"
+                       name="userName" required placeholder="Your UserName" tabindex="1" />
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword" class="col-sm-2 col-md-2 control-label">Password</label>
               <div class="col-sm-10 col-md-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="" tabindex="2" />
+                <input class="form-control" id="password" type="password" name="password" required placeholder="Your Password" tabindex="2" />
               </div>
             </div>
             <div class="form-group">
@@ -72,11 +76,10 @@
                 
               </div>
               <div class="col-xs-4 col-sm-4 col-md-4 submit">
-                <h:commandButton id="login" value="Login"
-                                         action="#{controller.login}" styleClass="btn btn-primary btn-lg"/>
+                <input type="submit" name="usernamePasswordBtn" id="usernamePasswordBtn" value="Login" class="btn btn-primary btn-lg"/>
               </div>
             </div>
-          </h:form>
+          </form>
         </div><!--/.col-*-->
         <div class="col-sm-5 col-md-6 col-lg-7 details">
           <p><strong>Welcome to Openshift-javaee-dev!</strong><br />
@@ -84,6 +87,9 @@
         </div><!--/.col-*-->
       </div><!--/.row-->
     </div><!--/.container-->
-    <f:event type="preRenderView" listener="#{controller.checkAlreadyLoggedin}"/>
-  </body>
+   </body>
 </html>
+<%
+    }
+%>
+
