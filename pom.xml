@@ -33,51 +33,38 @@
             resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBoss dependency versions -->
-        <version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
+        <!-- JBoss AS dependency versions -->
+		<version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
 
-        <!-- Define the version of the JBoss BOMs we want to import to specify 
-            tested stacks. -->
-        <version.jboss.bom.eap>6.4.0.GA</version.jboss.bom.eap>
-        
-        <!-- PicketLink dependency versions -->
+		<!-- WildFly dependency versions -->
+		<version.wildfly.maven.plugin>1.0.1.Final</version.wildfly.maven.plugin>
+
+		<!-- PicketLink dependency versions -->
 		<version.picketlink.javaee.bom>2.7.1.Final</version.picketlink.javaee.bom>
 
-        <!-- other plugin versions -->
-        <version.surefire.plugin>2.10</version.surefire.plugin>
-        <version.war.plugin>2.1.1</version.war.plugin>
 
-        <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.6</maven.compiler.target>
-        <maven.compiler.source>1.6</maven.compiler.source>
+
+		<!-- apache deltaspike -->
+		<version.deltaspike>1.0.1</version.deltaspike>
+
+		<!-- maven-compiler-plugin -->
+		<version.compiler.plugin>3.1</version.compiler.plugin>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.6</maven.compiler.source>
     </properties>
-
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
-                of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
-                of artifacts. We use this here so that we always get the correct versions 
-                of artifacts. Here we use the jboss-javaee-6.0-with-tools stack (you can 
-                read this as the JBoss stack of the Java EE 6 APIs, with some extras tools 
-                for your project, such as Arquillian for testing) and the jboss-javaee-6.0-with-hibernate 
-                stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
-                from the Hibernate family of projects) -->
-            <dependency>
-                <groupId>org.jboss.bom.eap</groupId>
-                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
-                <version>${version.jboss.bom.eap}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.bom.eap</groupId>
-                <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
-                <version>${version.jboss.bom.eap}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Dependency Management for PicketLink and Apache Deltaspike. -->
+	<repositories>
+		<repository>
+			<id>JBoss repository</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>Red hat</id>
+			<url>https://maven.repository.redhat.com/techpreview/all/</url>
+		</repository>
+	</repositories>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Dependency Management for PicketLink and Apache Deltaspike. -->
 			<dependency>
 				<groupId>org.picketlink</groupId>
 				<artifactId>picketlink-javaee-6.0</artifactId>
@@ -85,67 +72,95 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-        </dependencies>
-    </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 
-    <dependencies>
+	<dependencies>
 
-        <!-- First declare the APIs we depend on and need for compilation. All 
-            of them are provided by JBoss EAP 6 -->
-
-        <!-- Import the CDI API, we use provided scope as the API is included in 
-            JBoss EAP 6 -->
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the Common Annotations API (JSR-250), we use provided scope 
-            as the API is included in JBoss EAP 6 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.annotation</groupId>
-            <artifactId>jboss-annotations-api_1.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Import the JAX-RS API, we use provided scope as the API is included 
-            in JBoss EAP 6 -->
-        <dependency>
-            <groupId>org.jboss.spec.javax.ws.rs</groupId>
-            <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
+		<!-- PicketLink Uber Dependency. It provides all PicketLink dependencies 
+			from a single JAR. You still can define each module separately, if you want 
+			to. -->
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>2.3.10.Final-redhat-1</version>
-			<scope>provided</scope>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-idm-simple-schema</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-multipart-provider</artifactId>
-			<version>2.3.10.Final-redhat-1</version>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.0.1</version>
 		</dependency>
 
-        <!-- Import the JPA API, we use provided scope as the API is included in 
-            JBoss EAP 6 -->
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
 
-        <!-- Import the EJB API, we use provided scope as the API is included in 
-            JBoss EAP 6 -->
-       <dependency>
+		<!-- for jar -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.hk2.external</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>2.4.0-b31</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<!-- ends for jar -->
+
+		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
@@ -164,28 +179,7 @@
 			<version>3.1.4.GA</version>
 		</dependency>
 
-        <!-- JSR-303 (Bean Validation) Implementation -->
-        <!-- Provides portable constraints such as @Email -->
-        <!-- Hibernate Validator is shipped in JBoss EAP 6 -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
-        <!-- Import the JSF API, we use provided scope as the API is included in 
-            JBoss EAP 6 -->
-        <dependency>
-			<groupId>org.jboss.spec.javax.faces</groupId>
-			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
@@ -198,160 +192,282 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-        
-        <!-- PicketLink Uber Dependency. It provides all PicketLink dependencies 
-			from a single JAR. You still can define each module separately, if you want 
-			to. -->
+
+
+
+
+		
+
+
+
+
+
+		<!-- Hibernate JPA -->
 		<dependency>
-			<groupId>org.picketlink</groupId>
-			<artifactId>picketlink</artifactId>
-			<scope>compile</scope>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.picketlink</groupId>
-			<artifactId>picketlink-idm-simple-schema</artifactId>
-			<scope>compile</scope>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.2.18.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.2.18.Final</version>
 		</dependency>
 
-        <!-- Now we declare any tools needed -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.2.0.Final</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <!-- Annotation processor to generate the JPA 2.0 metamodel classes for 
-            typesafe criteria queries -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		<!-- cache -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>4.2.18.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+			</exclusions>
 
-        <!-- Annotation processor that raising compilation errors whenever constraint 
-            annotations are incorrectly used. -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		</dependency>
 
-        <!-- Needed for running tests (you may also use TestNG) -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.10.2</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <!-- Optional, but highly recommended -->
-        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) 
-            JPA from JUnit/TestNG -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<version>7.1.1.Final</version>
 
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>
-        </dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-cdi</artifactId>
+			<version>7.1.1.Final</version>
 
-    </dependencies>
+		</dependency>
 
-    <build>
-        <!-- Maven will append the version to the finalName (which is the name 
-            given to the generated war, and hence the context root) -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-            </plugin>
-            <!-- The JBoss AS plugin deploys your war to a local JBoss EAP container -->
-            <!-- To use, run: mvn package jboss-as:deploy -->
-            <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>${version.jboss.maven.plugin}</version>
-            </plugin>
-        </plugins>
-    </build>
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-cachestore-jdbc</artifactId>
+			<version>7.1.1.Final</version>
+		</dependency>
+		<!-- ends cache -->
+
+
+		<!-- ends Hibernate JPA -->
+
+
+
+		<!-- Deltaspike modules -->
+
+		<dependency>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-servlet-module-api</artifactId>
+			<version>${version.deltaspike}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.deltaspike.core</groupId>
+					<artifactId>deltaspike-core-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-servlet-module-impl</artifactId>
+			<version>${version.deltaspike}</version>
+			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.deltaspike.core</groupId>
+					<artifactId>deltaspike-core-impl</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.deltaspike.core</groupId>
+					<artifactId>deltaspike-core-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+
+
+
+
+		<!-- ends Deltaspike modules -->
+
+		<!-- JOSE & JWT -->
+
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<classifier>jdk16</classifier>
+			<version>4.11.2</version>
+		</dependency>
+
+		<!-- ends JOSE & JWT -->
+
+		<!-- The Legion of the Bouncy Castle -->
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.54</version>
+		</dependency>
+
+		<!-- ends The Legion of the Bouncy Castle -->
+
+		<!-- urlrewritefilter -->
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+		<!-- ends urlrewritefilter -->
+		
+		<!-- Java EE dependencies -->
+		
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.xml.ws</groupId>
+			<artifactId>jboss-jaxws-api_2.2_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ends Java EE dependencies -->
+
+		
+		<!-- Weblogic dependencies -->
+
+		<!-- jackson2 -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.glassfish.jersey.media</groupId> -->
+		<!-- <artifactId>jersey-media-json-jackson</artifactId> -->
+		<!-- <version>2.22.1</version> -->
+
+		<!-- </dependency> -->
+
+
+
+		<!-- jackson2 -->
+
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.4</version>
+		</dependency>
+
+		<!-- ends Weblogic dependencies -->
+		<!-- Apache HTTP Components for HTTP Client implementation -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+
+		<!-- ends Apache HTTP Components for HTTP Client implementation -->
+		
+
+
+
+		<!-- swagger -->
+		<!-- <dependency> -->
+		<!-- <groupId>io.swagger</groupId> -->
+		<!-- <artifactId>swagger-jaxrs</artifactId> -->
+		<!-- <version>1.5.0</version> -->
+		<!-- <exclusions> -->
+		<!-- <exclusion> -->
+		<!-- <artifactId>slf4j-api</artifactId> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- </exclusion> -->
+
+		<!-- <exclusion> -->
+		<!-- <artifactId>slf4j-log4j12</artifactId> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- </exclusion> -->
+
+		<!-- </exclusions> -->
+		<!-- </dependency> -->
+
+
+		<!-- ends swagger -->
+
+		<dependency>
+			<groupId>net.jawr</groupId>
+			<artifactId>jawr-core</artifactId>
+			<version>[3,]</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_1.1_spec</artifactId>
+		</dependency>
+
+
+
+
+	</dependencies>
+	
+	<build>
+		<!-- Set the name of the war, used as the context root when the app is 
+			deployed -->
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+
+
+		</plugins>
+	</build>
+	
+
+    
 
     <profiles>
-        <profile>
-            <!-- The default profile skips all tests, though you can tune it to run 
-                just unit tests based on a custom pattern -->
-            <!-- Seperate profiles are provided for running all tests, including Arquillian 
-                tests that execute in the specified container -->
-            <id>default</id>
-            <activation>
-                <property>
-                    <name>!default</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your 
-                JBoss EAP instance -->
-            <!-- This profile will start a new JBoss EAP instance, and execute the 
-                test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-jbossas-managed -->
-            <id>arq-jbossas-managed</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
-        <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote 
-                JBoss EAP instance -->
-            <!-- Run with: mvn clean test -Parq-jbossas-remote -->
-            <id>arq-jbossas-remote</id>
-              <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${version.surefire.plugin}</version>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-
+       
         <profile>
             <!-- When built in OpenShift the 'openshift' profile will be used when 
                 invoking mvn. -->

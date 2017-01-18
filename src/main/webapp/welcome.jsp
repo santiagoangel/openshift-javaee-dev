@@ -98,7 +98,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
           <li><a href="#">Preferences</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="<%= request.getContextPath() %>/rest/logout">Logout</a></li>
         </ul>
       </li>
     </ul>
@@ -166,7 +166,7 @@
       </a>
     </li>
     <li class="list-group-item hidden-sm hidden-md hidden-lg">
-      <a href="#">
+      <a href="<%= request.getContextPath() %>/rest/logout">
         <span class="fa fa-sign-out" title="Log Out"></span>
         <span class="list-group-item-value">Log Out</span>
       </a>
