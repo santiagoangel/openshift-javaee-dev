@@ -46,6 +46,10 @@
 
 		<!-- apache deltaspike -->
 		<version.deltaspike>1.0.1</version.deltaspike>
+	    
+	        <!-- other plugin versions -->
+                <version.surefire.plugin>2.10</version.surefire.plugin>
+                <version.war.plugin>2.1.1</version.war.plugin>
 
 		<!-- maven-compiler-plugin -->
 		<version.compiler.plugin>3.1</version.compiler.plugin>
